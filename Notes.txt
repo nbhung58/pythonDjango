@@ -1,0 +1,124 @@
+Django
+1. cài đặt module
+- pip install django
+2. Khởi tạo project
+- "django-admin startproject myproject ."
+3. 
+File manager giúp cho các bạn có những câu lệnh quản lý project của các bạn
+ + như Run project, chạy website, làm 1 số chức năng trong database
+File wsgi.py 
++ Nó dùng 1 cái file hỗ trợ khi đẩy website lên trên server => quá trình deployment
+File url.py
++Nó là file chứa các đường dẫn của website, ví dụ các bạn định nghĩa source admin vào trang admin?
+File settings.py 
++ Nó chứa 1 số cái biến toàn cục cấu hình cho toàn bộ website 
++ Ví dụ cấu hình template, database, static_url
++ Cấu hình múi giờ
++ Cấu hình cài đặt application?
+File init.py
++Chỉ là module của python, ko có gì, nó phải có, rỗng cũng được
+
+I. Tạo ứng dụng web hello world Django
+1. Deploy Web từ project Django: python manage.py runserver
+=> http://127.0.0.1:8000
+2. Tổ chức của Django, tổ chức thành các application nhỏ, đúng như các module của Python
+Để tạo ra 1 application
+=> python manage.py startapp polls
+Application tự động tạo 1 thư mục polls trong đó có thư mục migrations
+Migration lưu lại lịch sử của các bạn, tạo ra db và thay đổi db sẽ lưu lại ở đây
+File init
++ Báo hiệu như là 1 module của python
+File apps.py
++ định nghĩa tên của application
+File admin.py
++ để đăng ký model (model.py)
+File models.py
++ Model là các thực thể để giống như bạn có 1 cái bản là sinh viên thì sẽ tạo ra 1 model là sinh viên thì cần đăng ký tại admin.py
+File test.py
++Dùng cho test case
+File views.py
++ Views chính là giao diện
+
+CODE: 
+1. views.py
++ Cái ứng dụng gốc chứa các cài đặt trong phần setting
++ Khi mà chúng ta tạo ra 1 application thì phải đăng ký ở phần setting
+ GIẢI THÍCH CODE CHẠY:
+1. Sau khi đăng ký xong, chúng ta có mynetwork là gốc, khi mà truy cập vào thì nó sẽ chạy setting này là đầu tiên và sau đó tùy theo đường dẫn urls.py mà các bạn và nó sẽ so khớp
+
+
+Bài 2: Làm việc với Model 
+Xây dựng cơ sở dữ liệu cho 1 ứng dụng thăm dò ý kiến
+=> phần này tạm hiểu là tạo 1 cơ sở dữ liệu và thêm dữ liệu vào đó
+
+Bài 3: admin site: 
++ python manage.py makemigrations
++ python manage.py migrate
++ Vào admin setup => cái này dễ
+
+Bài 4: Templates trong Django
+- Mỗi cái application sẽ có 1 cái template
+Cần tạo 1 thư mục templates trong thư mục application, trong tm templates tạo thư mục theo tên application
+=> Cơ chế để tìm 
+
+Bài 5: Templates phần 2
+Phần này ko khó lắm, chủ yếu là chèn block vào html
+
+Phần 6: Template phần 3
+Query một object, lấy đối tượng trong database in ra ngoài view
+=> Cái này chơi được, dễ hiểu, nhưng không dễ nhớ
+
+Phần 7: Select object từ database ra ngoài template view
+Đưa database choice ra view
+
+Bài 8: Xử lý hành động submit form 
+Phải có token để bảo mật trong django (Phần này khó!!) mai phải xem lại
+
+Bài 9: URL Namespace và static
+Tách riêng code css(hoặc javascript) đưa ra 1 file riêng
+
+Bài 10: Model form trong django
+Sử dụng form 
+
+Bài 11:  Form phần 2
+Phần này tạm hiểu, chơi được
+
+Bài 12: Widgets
+Tóm tắt:
++ ở phần file form muốn tùy chỉnh các thuộc tính cho các cái thẻ thì có thể thêm cái widgets
+
+Bài 13 Class base view
+
+
+Bài 15: User Authenticate
+Học video 16 tìm hiểu user model trước rồi quay lại video 15
+
+Bài 16: Chủ yếu về lý thuyết cho phần user, nói về các yêu cầu khi đặt tên user và các hàm hỗ trợ giải quyết các vấn đề nhỏ
+Bài xác thực này không khó, tự tạo 1 superuser rồi sau đó tạo 1 templates login, lấy dữ liệu từ request.POST.get tên đăng nhập và mật khẩu để xác thực
+
+Bài 17: User login, cảnh báo xác thực, đăng nhập không đúng, cảnh báo cần phải đăng nhập
+
+Bài 18: Phân quyền View decorator
+from django.contrib.auth import decorators
+@decorators.login_required()
+login_url='/login/' điều hướng qua page login nếu chưa login
+
+from django.contrib.auth.mixins import
+mixins là class để kết nối các đối tượng trong django 1 cách mềm dẻo
+* Có 1 cái quan trọng ở class ViewUser(View, LoginRequiredMixin):
+Cần chuyển hướng sang (LoginRequiredMixin, View)
+
+Bài 19: Phân quyền user
+* Khi làm một model mới cần phải makemigartions và migrate
+Chủ yếu cấu hình trong page admin, ko khó
+
+Bài 20: Check user permissions
+key: if request.user.has_perm('Login.add_post'):
+	f.save()
+
+Bài 21: Custom user model
+Custom user
+from django.contrib.auth.models import AbstractUser
+AbstractUser là class cơ sở để có thể kế thừa và định nghĩa thêm 1 số thuộc tính của user như tuổi giới tính, địa chỉ
+=> thay đổi ở phần models và setting.py
+setting.py = AUTH_USER_MODEL = 'Login.MyUser'
