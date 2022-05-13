@@ -122,3 +122,8 @@ from django.contrib.auth.models import AbstractUser
 AbstractUser là class cơ sở để có thể kế thừa và định nghĩa thêm 1 số thuộc tính của user như tuổi giới tính, địa chỉ
 => thay đổi ở phần models và setting.py
 setting.py = AUTH_USER_MODEL = 'Login.MyUser'
+
+Bài 22: Tùy chỉnh giao diện admin custom, 
+STATIC_ROOT = 'static'
+
+python manage.py collectstatic
